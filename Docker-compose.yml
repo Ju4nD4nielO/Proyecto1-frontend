@@ -1,0 +1,7 @@
+services:
+  frontend:
+    build: .
+    container_name: games_frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"

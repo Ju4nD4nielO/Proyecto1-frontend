@@ -105,8 +105,7 @@ body {
 
 .stat-pill span { font-weight: 600; color: var(--text-primary); }
 
-/* GRID */
-.series-grid {
+/* FIX: games-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.25rem;
@@ -122,8 +121,7 @@ body {
 .loading-state span, .empty-state span { font-size: 2.5rem; display: block; margin-bottom: 1rem; }
 .empty-state h3 { font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary); }
 
-/* CARD */
-.series-card {
+.games-card {
   background: var(--bg-card);
   border-radius: var(--radius);
   overflow: hidden;
@@ -133,7 +131,7 @@ body {
   flex-direction: column;
 }
 
-.series-card:hover {
+.games-card:hover {
   border-color: var(--accent);
   transform: translateY(-2px);
 }
@@ -277,7 +275,7 @@ body {
 }
 .modal-close:hover { color: var(--text-primary); }
 
-#series-form {
+#games-form {
   padding: 0 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -348,5 +346,5 @@ body {
 @media (max-width: 600px) {
   .main-content { padding: 1rem; }
   .form-row { grid-template-columns: 1fr; }
-  .series-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+  .games-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
 }

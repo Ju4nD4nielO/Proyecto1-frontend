@@ -44,58 +44,7 @@ function statusLabel(status) {
   return map[status] || status;
 }
 
-// ── RENDER CARDS ─────────────────────────────────────────
-function renderGrid(games) {
-  if (games.length === 0) {
-    grid.innerHTML = `
-      <div class="card-body">
-        <div class="card-title">${escHtml(g.title)}</div>
-        ${g.genre ? `<div class="card-genre">${escHtml(g.genre)}</div>` : ''}
-        ${g.platform ? `<div class="card-genre">📱 ${escHtml(g.platform)}</div>` : ''}
-        <span class="card-status status-${g.status}">${statusLabel(g.status)}</span>
-        ${g.hours_played ? `<div class="card-episodes">⏱ ${g.hours_played}h played</div>` : ''}
-        </div>   
-    `;
-    return;
-  }
-
-  grid.innerHTML = games.map(g => {
-    const coverHtml = g.image_url
-      ? `<img class="card-cover" src="${escHtml(g.image_url)}" alt="${escHtml(g.title)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="card-cover-placeholder" style="display:none">🎬</div>`
-      : `<div class="card-cover-placeholder">🎬</div>`;
-
-    const epText = (s.total_episodes && s.total_episodes > 0)
-      ? `${s.episodes_watched || 0} / ${s.total_episodes} eps`
-      : (s.episodes_watched ? `${s.episodes_watched} eps watched` : '');
-
-    const epPercent = (s.total_episodes > 0)
-      ? Math.min(100, Math.round((s.episodes_watched / s.total_episodes) * 100))
-      : 0;
-
-    const epBarHtml = (s.total_episodes > 0) ? `
-      <div class="ep-bar">
-        <div class="ep-bar-fill" style="width: ${epPercent}%"></div>
-      </div>
-    ` : '';
-
-    return `
-      <div class="games-card" data-id="${s.id}">
-        ${coverHtml}
-        <div class="card-body">
-          <div class="card-title">${escHtml(s.title)}</div>
-          ${s.genre ? `<div class="card-genre">${escHtml(s.genre)}</div>` : ''}
-          <span class="card-status status-${s.status}">${statusLabel(s.status)}</span>
-          ${epText ? `<div class="card-episodes">${epText}</div>${epBarHtml}` : ''}
-        </div>
-        <div class="card-actions">
-          <button class="card-btn edit" onclick="openEdit(${s.id})">Edit</button>
-          <button class="card-btn delete" onclick="confirmDelete(${s.id}, '${escHtml(s.title).replace(/'/g, "\\'")}')">Delete</button>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
+// ── ESCAPE HTML ──────────────────────────────────────────
 function escHtml(str) {
   if (!str) return '';
   return String(str)
@@ -104,6 +53,45 @@ function escHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+// ── RENDER CARDS ─────────────────────────────────────────
+function renderGrid(games) {
+  if (games.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <span>🎮</span>
+        <h3>No games yet</h3>
+        <p>Add your first game to get started!</p>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = games.map(g => {
+    const coverHtml = g.image_url
+      ? `<img class="card-cover" src="${escHtml(g.image_url)}" alt="${escHtml(g.title)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="card-cover-placeholder" style="display:none">🎮</div>`
+      : `<div class="card-cover-placeholder">🎮</div>`;
+
+    const hoursText = g.hours_played > 0 ? `⏱ ${g.hours_played}h played` : '';
+
+    return `
+      <div class="games-card" data-id="${g.id}">
+        ${coverHtml}
+        <div class="card-body">
+          <div class="card-title">${escHtml(g.title)}</div>
+          ${g.genre ? `<div class="card-genre">${escHtml(g.genre)}</div>` : ''}
+          ${g.platform ? `<div class="card-genre">📱 ${escHtml(g.platform)}</div>` : ''}
+          <span class="card-status status-${g.status}">${statusLabel(g.status)}</span>
+          ${hoursText ? `<div class="card-episodes">${hoursText}</div>` : ''}
+        </div>
+        <div class="card-actions">
+          <button class="card-btn edit" onclick="openEdit(${g.id})">Edit</button>
+          <button class="card-btn delete" onclick="confirmDelete(${g.id}, '${escHtml(g.title).replace(/'/g, "\\'")}')">Delete</button>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 // ── LOAD ─────────────────────────────────────────────────
@@ -150,21 +138,21 @@ function getFormData() {
 
 // ── OPEN ADD ──────────────────────────────────────────────
 document.getElementById('btn-add').addEventListener('click', () => {
-  modalTitle.textContent = 'Add Games';
-  document.getElementById('btn-submit').textContent = 'Save Games';
+  modalTitle.textContent = 'Add Game';
+  document.getElementById('btn-submit').textContent = 'Save Game';
   openModal();
 });
 
 // ── OPEN EDIT ─────────────────────────────────────────────
 async function openEdit(id) {
   try {
-    const games = await api.getOne(id);
-    modalTitle.textContent = 'Edit Games';
-    document.getElementById('btn-submit').textContent = 'Update Games';
-    fillForm(games);
+    const game = await api.getOne(id);
+    modalTitle.textContent = 'Edit Game';
+    document.getElementById('btn-submit').textContent = 'Update Game';
+    fillForm(game);
     openModal();
   } catch (err) {
-    showToast('Could not load games data');
+    showToast('Could not load game data');
   }
 }
 
@@ -186,10 +174,10 @@ gamesForm.addEventListener('submit', async e => {
   try {
     if (id) {
       await api.update(id, data);
-      showToast('✨ Games updated!');
+      showToast('✨ Game updated!');
     } else {
       await api.create(data);
-      showToast('🌸 Games added!');
+      showToast('🌸 Game added!');
     }
     closeModal();
     await loadGames();
@@ -197,7 +185,7 @@ gamesForm.addEventListener('submit', async e => {
     showToast('Error: ' + err.message);
   } finally {
     btn.disabled = false;
-    btn.textContent = id ? 'Update Games' : 'Save Games';
+    btn.textContent = id ? 'Update Game' : 'Save Game';
   }
 });
 
@@ -221,10 +209,10 @@ document.getElementById('confirm-ok').addEventListener('click', async () => {
     await api.remove(pendingDeleteId);
     confirmOverlay.classList.remove('active');
     pendingDeleteId = null;
-    showToast('🗑️ Games deleted');
+    showToast('🗑️ Game deleted');
     await loadGames();
   } catch (err) {
-    showToast('Could not delete games');
+    showToast('Could not delete game');
   }
 });
 

@@ -13,7 +13,7 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="logo">
-        <span class="logo-icon">🧚‍♀️</span>
+        <span class="logo-icon">🎮</span>
         <h1>Games Tracker</h1>
       </div>
       <button class="btn btn-primary" id="btn-add">+ Add Game</button>
@@ -27,7 +27,7 @@
 
     <div class="games-grid" id="games-grid">
       <div class="loading-state">
-        <span>🧚‍♀️</span>
+        <span>🎮</span>
         <p>Loading your games...</p>
       </div>
     </div>
@@ -37,7 +37,7 @@
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal">
       <div class="modal-header">
-        <h2 id="modal-title">Add games</h2>
+        <h2 id="modal-title">Add Game</h2>
         <button class="modal-close" id="modal-close">✕</button>
       </div>
       <form id="games-form" autocomplete="off">
@@ -45,33 +45,34 @@
 
         <div class="form-group">
           <label for="title">Title *</label>
-          <input type="text" id="title" placeholder="e.g. Euphoria" required />
+          <input type="text" id="title" placeholder="e.g. Elden Ring" required />
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label for="genre">Genre</label>
-            <input type="text" id="genre" placeholder="e.g. Drama" />
+            <input type="text" id="genre" placeholder="e.g. RPG" />
           </div>
           <div class="form-group">
-            <label for="status">Status</label>
-            <select id="status">
-              <option value="plan_to_watch">Plan to Watch</option>
-              <option value="watching">Watching</option>
-              <option value="completed">Completed</option>
-              <option value="dropped">Dropped</option>
-            </select>
+            <label for="platform">Platform</label>
+            <input type="text" id="platform" placeholder="e.g. PC, PS5" />
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label for="episodes_watched">Episodes Watched</label>
-            <input type="number" id="episodes_watched" min="0" placeholder="0" />
+            <label for="status">Status</label>
+            <select id="status">
+              <option value="plan_to_play">Plan to Play</option>
+              <option value="playing">Playing</option>
+              <option value="completed">Completed</option>
+              <option value="on_hold">On Hold</option>
+              <option value="dropped">Dropped</option>
+            </select>
           </div>
           <div class="form-group">
-            <label for="total_episodes">Total Episodes</label>
-            <input type="number" id="total_episodes" min="0" placeholder="?" />
+            <label for="hours_played">Hours Played</label>
+            <input type="number" id="hours_played" min="0" placeholder="0" />
           </div>
         </div>
 
@@ -87,7 +88,7 @@
 
         <div class="form-actions">
           <button type="button" class="btn btn-ghost" id="btn-cancel">Cancel</button>
-          <button type="submit" class="btn btn-primary" id="btn-submit">Save games</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit">Save Game</button>
         </div>
       </form>
     </div>
@@ -100,7 +101,7 @@
   <div class="modal-overlay" id="confirm-overlay">
     <div class="modal modal-sm">
       <div class="confirm-icon">🗑️</div>
-      <h3 id="confirm-title">Delete games?</h3>
+      <h3 id="confirm-title">Delete game?</h3>
       <p id="confirm-text">This action cannot be undone.</p>
       <div class="form-actions">
         <button class="btn btn-ghost" id="confirm-cancel">Cancel</button>
