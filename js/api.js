@@ -1,4 +1,3 @@
-const API_URL = 'http://localhost:3000';
 const API_URL = 'https://games-tracker-api-sd8l.onrender.com';
 
 const api = {

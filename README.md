@@ -4,7 +4,7 @@ Cliente web para el proyecto Games Tracker. Construido con HTML, CSS y JavaScrip
 
 ## 🔗 Links
 - **Backend repo**: [[link al repo del backend]](https://github.com/Ju4nD4nielO/Proyecto1-Backend)
-- **App en producción**: [link de render]
+- **App en producción**: 
 
 ## 🛠 Tech Stack
 - HTML5
