@@ -5,7 +5,6 @@ const confirmOverlay = document.getElementById('confirm-overlay');
 const gamesForm = document.getElementById('games-form');
 const modalTitle = document.getElementById('modal-title');
 const toast = document.getElementById('toast');
-const API_URL = 'https://games-tracker-api-sd8l.onrender.com';
 
 let allGames = [];
 let toastTimer;
