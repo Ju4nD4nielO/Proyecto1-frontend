@@ -3,8 +3,8 @@
 Cliente web para el proyecto Games Tracker. Construido con HTML, CSS y JavaScript vanilla usando `fetch()` para consumir la API REST.
 
 ## 🔗 Links
-- **Backend repo**: [[link al repo del backend]](https://github.com/Ju4nD4nielO/Proyecto1-Backend)
-- **App en producción**: 
+- **Backend repo**: https://github.com/Ju4nD4nielO/Proyecto1-Backend
+- **App en producción**: https://games-tracker-front2.onrender.com/
 
 ## 🛠 Tech Stack
 - HTML5
